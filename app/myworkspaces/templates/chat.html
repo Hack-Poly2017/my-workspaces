@@ -68,10 +68,12 @@
           $('#comments').append(
                 '<li class="comment"><span class="comment-image"><img src="{% gravatar_url comment.user.email%}" width="20" height="20" /> </span><span class="comment-username">' + name + '</span><span class="comment-message">: <a href="{% url 'docs' %}"><i id="docs-icon" class="fa fa-file"></i> jplcoverletter.docx</a></span></li>'
         );
+          comments.scrollTop = comments.scrollHeight;
         } else {
           $('#comments').append(
                 '<li class="comment"><span class="comment-image"><img src="{% gravatar_url comment.user.email%}" width="20" height="20" /> </span><span class="comment-username">' + name + '</span><span class="comment-message">' + msg + '</span></li>'
           );
+          comments.scrollTop = comments.scrollHeight;
           window.scrollBy(0, 10000000000);
           $.playSound("{% static 'myworkspaces/sounds/notif' %}")
           }
@@ -90,8 +92,6 @@
           });
 
           // Element goes down on message.
-
-          comments.scrollTop = comments.scrollHeight;
 
           //Clear input value
           entry_el.attr('value', '');
