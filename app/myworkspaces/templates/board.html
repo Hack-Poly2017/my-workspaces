@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workspaces</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'myworkspaces/css/board.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Poiret+One|Rajdhani|Pacifico" rel="stylesheet">
+</head>
+<body>
+<a href="{% url 'workspaces' %}"><img src="{% static 'myworkspaces/images/logo.png' %}" style="position: absolute; top: 0; left: 0; margin-left: 1em; padding: 0.5em; margin-top: 0.5em; width: 10%; height: auto; border: 1px solid; border-radius: 10px;"></a>
+<div id="wrapper" class="container">
+    <div class="header">
+        <button id="add-item" class="glyphicon glyphicon-plus"></button>
+    <h1 class = "header">Workspaces/To-do List</h1>
+<div id="board">
+    <div>
+      <h3><span class="glyphicon glyphicon-pushpin"></span> To-do</h3><h3><span class="glyphicon glyphicon-pencil"></span> Work in Progress</h3>
+        <h3>Completed <span class="glyphicon glyphicon-ok"></span></h3>
+    </div>
+    <ul id="todo">
+        <li id="item1" draggable="true">CS61 Data Structures Project</li>
+        <li id="item2" draggable="true"><a href="{% url 'docs' %}"><button id="swebutton">Software Engineering Internship Cover Letter</button></a></li>
+        <li id="item3" draggable="true">Get better grades!</li>
+    </ul><!--
+    --><ul id="inprogress">
+    <li id="item4" draggable="true">Hit the gym</li>
+    <li id="item5" draggable="true">Learn C#</li>
+    </ul><!--
+    --><ul id="done">
+    <li id="item6" draggable="true">Turn 2017 </li>
+    </ul>
+</div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>$(document).ready(function(){
+
+    $('#add-item').click(
+        function() {
+            var node = document.createElement("li")
+            textNode = document.createTextNode("To-Do Item");
+            node.appendChild(textNode)
+            $('#todo').append(node)
+    })
+
+  $('li').bind('dragstart', function(event) {
+    event.originalEvent.dataTransfer.setData("text/plain",  event.target.getAttribute('id'));
+  });
+
+  $('ul').bind('dragover', function(event) {
+    event.preventDefault();
+  });
+
+  $('ul').bind('dragenter', function(event) {
+    $(this).addClass("over");
+  });
+
+  $('ul').bind('dragleave drop', function(event) {
+    $(this).removeClass("over");
+  });
+
+  $('li').bind('drop', function(event) {
+    return false;
+  });
+
+  $('ul').bind('drop', function(event) {
+    var listitem = event.originalEvent.dataTransfer.getData("text/plain");
+    event.target.appendChild(document.getElementById(listitem));
+    event.preventDefault();
+  });
+});</script>
+
+</body>
+</html>

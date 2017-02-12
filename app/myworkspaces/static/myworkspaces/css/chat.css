@@ -1,0 +1,92 @@
+/*html {*/
+    /*font-family: Helvetica, serifs, Arial;*/
+/*}*/
+html {
+    margin: 5em;
+    font-family: Helvetica, serif;
+    background-color: darkslategrey;
+}
+
+/*#main-wrapper {*/
+    /*margin: 0;*/
+/*}*/
+
+
+#comments {
+    list-style-type: none;
+    padding-left: 5px;
+    overflow-y: scroll;
+    max-height: 50vh;
+    border: 1px dashed darkslategray;
+}
+
+#comment-field {
+    width: 100%;
+}
+
+.comment {
+    overflow-wrap: break-word;
+    padding-top: 0.5em;
+    padding-bototm: 0.5em;
+}
+
+.comment-username {
+    font-weight: bold;
+}
+
+#content {
+    /*padding: 1em;*/
+    padding: 0.5em;
+}
+
+#title {
+    color: darkslategrey;
+}
+
+#users-list {
+    list-style-type: none;
+    padding-left: 1em;
+    background-color: #313131;
+    height: 50vh;
+    color: white;
+}
+
+.list-user-item {
+    font-size: 1.2em;
+    color: #009688;
+}
+
+#docs-icon {
+    font-size: 2em;
+}
+
+#users-list-header {
+    text-decoration: underline;
+    color: white;
+    opacity: 0.8;
+}
+
+#help-comment {
+    margin: 1em;
+    background-color: darkslategray;
+    color: white;
+}
+
+#help-comment img {
+    padding: 15px;
+}
+
+/*#commands-display {*/
+    /*background-color: #303F9F;*/
+    /*color: black;*/
+/*}*/
+
+.command {
+    border: 1px solid white;
+    color: black;
+}
+
+.ui-menu-item {
+    background-color: rgba(47,79,79, .8);
+    color: white;
+}

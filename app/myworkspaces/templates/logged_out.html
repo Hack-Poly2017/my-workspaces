@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div style="text-align: center; color: white;">
+  <h2>Logged out</h2>
+  <p>You have been successfully logged out.<br>You will be redirected in 5 seconds.</p>
+  <a href="{% url 'login' %}" class="btn btn-default">Go back to login</a>
+</div>
+<div id="loading-wrapper">
+  <div id="loading-text">GOODBYE</div>
+  <div id="loading-content"></div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  setTimeout(function () {
+    window.location.href = "http://localhost:3000";
+  }, 5000)
+</script>
+{% endblock %}

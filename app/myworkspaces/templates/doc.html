@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'myworkspaces/css/docs.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Poiret+One|Rajdhani|Pacifico" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <title>Workspaces</title>
+</head>
+<body>
+<a href="{% url 'workspaces' %}"><img src="{% static 'myworkspaces/images/logo.png' %}" style="position: absolute; top: 0; left: 0; margin-left: 1em; padding: 0.5em; margin-top: 0.5em; width: 10%; height: auto; border: 1px solid; border-radius: 10px;"></a>
+ <h1>Workspaces/Documents</h1>
+<div class="wrap">
+
+   <div class="toolbar">
+      <button id="bold" title="Bold (Ctrl+B)"><i class="fa fa-bold"></i></button>
+      <button id="italic" title="Italic (Ctrl+I)"><i class="fa fa-italic"></i></button>
+      <button id="underline" title="Underline (Ctrl+U)"><i class="fa fa-underline"></i></button>
+      <select name="fonts" id="fonts">
+         <option value="Josefin Sans" selected>Josefin Sans</option>
+         <option value="Georgia">Georgia</option>
+         <option value="Tahoma">Tahoma</option>
+         <option value="Times New Roman">Times New Roman</option>
+         <option value="Verdana">Verdana</option>
+         <option value="Impact">Impact</option>
+         <option value="Courier New">Courier New</option>
+      </select>
+      <select name="size" id="size">
+         <option value="8">8</option>
+         <option value="10">10</option>
+         <option value="12">12</option>
+         <option value="14">14</option>
+         <option value="16" selected>16</option>
+         <option value="18">18</option>
+         <option value="20">20</option>
+         <option value="22">22</option>
+         <option value="24">24</option>
+         <option value="26">26</option>
+      </select>
+      <input type="text" id="color" />
+      <button id="align-left" title="Left"><i class="fa fa-align-left"></i></button>
+      <button id="align-center" title="Center"><i class="fa fa-align-center"></i></button>
+      <button id="align-right" title="Right"><i class="fa fa-align-right"></i></button>
+      <button id="list-ul" title="Unordered List"><i class="fa fa-list-ul"></i></button>
+      <button id="list-ol" title="Ordered List"><i class="fa fa-list-ol"></i></button>
+   </div>
+   <div class="editor" contenteditable>Dear Prestigious Company's Hiring Manager,<br><br>Here's a little about me. My side projects,
+      languages I've learned from <strong>StackOverflow</strong>, why I want to work for a prestigious $company$, and why I should be hired.
+      ,<br><br>Warmest regards,<br>Aspiring Software Engineer</div>
+</div>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/8689de33b8.js"></script>
+<script>$('#bold').on('click', function() {
+   document.execCommand('bold', false, null);
+});
+
+$('#italic').on('click', function() {
+   document.execCommand('italic', false, null);
+});
+
+$('#underline').on('click', function() {
+   document.execCommand('underline', false, null);
+});
+
+$('#align-left').on('click', function() {
+   document.execCommand('justifyLeft', false, null);
+});
+
+$('#align-center').on('click', function() {
+   document.execCommand('justifyCenter', false, null);
+});
+
+$('#align-right').on('click', function() {
+   document.execCommand('justifyRight', false, null);
+});
+
+$('#list-ul').on('click', function() {
+   document.execCommand('insertUnorderedList', false, null);
+});
+
+$('#list-ol').on('click', function() {
+   document.execCommand('insertOrderedList', false, null);
+});
+
+$('#fonts').on('change', function() {
+   var font = $(this).val();
+   document.execCommand('fontName', false, font);
+});
+
+$('#size').on('change', function() {
+   var size = $(this).val();
+   $('.editor').css('fontSize', size + 'px');
+});
+
+$('#color').spectrum({
+   color: '#000',
+   showPalette: true,
+   showInput: true,
+   showInitial: true,
+   showInput: true,
+   preferredFormat: "hex",
+   showButtons: false,
+   change: function(color) {
+      color = color.toHexString();
+      document.execCommand('foreColor', false, color);
+   }
+});
+
+$('.editor').perfectScrollbar();</script>
+
+
+</body>
+</html>

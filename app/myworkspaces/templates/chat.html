@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat boys</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  {% load staticfiles %}
+  {% load gravatar %}
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"/>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'myworkspaces/css/chat.css' %}"/>
+
+  <script
+          src="https://code.jquery.com/jquery-1.8.2.min.js"
+          integrity="sha256-9VTS8JJyxvcUR+v+RTLTsd0ZWbzmafmlzMmeZO9RFyk="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="http://localhost:4000/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="{% static 'myworkspaces/js/jquery.playSound.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+      var comments = document.getElementById('comments');
+
+      $('#comments').append(
+              '<li class="comment" id="help-comment"><span class="comment-image"><img src="http://www.freeiconspng.com/uploads/robot-icon-4.png" width="75" height="75" /> </span><span class="comment-username">' + name + '</span><span class="comment-message">Type / to see the list of commands!</span></li>'
+      );
+
+      comments.scrollTop = comments.scrollHeight;
+
+      var commands = [
+        "/invite [email]",
+        "/calendar eventName, 'time:(AM/PM) - time:(AM/PM)'",
+        "/todo add [taskName]",
+        "/send doc [id]",
+      ];
+
+      $("#comment-field").autocomplete({
+        source: commands,
+      });
+
+      var socket = io.connect('localhost', {port: 4000});
+
+      socket.on('connect', function () {
+        console.log("connect");
+      });
+
+      var entry_el = $('#comment-field');
+
+      socket.on('message', function (message) {
+        //Escape HTML characters
+        var data = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        //Append message to the bottom of the list
+        var name;
+        var msg;
+        var index;
+
+        for (var i = 0; i < data.length; ++i) {
+          if (data[i] === ":") index = i;
+        }
+
+        name = data.slice(0, index);
+        msg = data.slice(index, data.length)
+        console.log(msg)
+        if (msg.slice(2, data.length) === "/send doc 'jplcoverletter.docx'") {
+          $('#comments').append(
+                '<li class="comment"><span class="comment-image"><img src="{% gravatar_url comment.user.email%}" width="20" height="20" /> </span><span class="comment-username">' + name + '</span><span class="comment-message">: <a href="{% url 'docs' %}"><i id="docs-icon" class="fa fa-file"></i> jplcoverletter.docx</a></span></li>'
+        );
+        } else {
+          $('#comments').append(
+                '<li class="comment"><span class="comment-image"><img src="{% gravatar_url comment.user.email%}" width="20" height="20" /> </span><span class="comment-username">' + name + '</span><span class="comment-message">' + msg + '</span></li>'
+          );
+          window.scrollBy(0, 10000000000);
+          $.playSound("{% static 'myworkspaces/sounds/notif' %}")
+          }
+        entry_el.focus();
+      });
+
+      entry_el.keypress(function (event) {
+        //When enter is pressed send input value to node server
+        if (event.keyCode != 13) return;
+        var msg = entry_el.attr('value');
+
+        if (msg) {
+
+          socket.emit('send_message', msg, function (data) {
+            console.log(data);
+          });
+
+          // Element goes down on message.
+
+          comments.scrollTop = comments.scrollHeight;
+
+          //Clear input value
+          entry_el.attr('value', '');
+        }
+      });
+    })
+    ;
+  </script>
+</head>
+<body style="position: relative;">
+<h1 style="text-align: center; padding-top: 1em;">Workspaces/Chat</h1>
+<a href="{% url 'workspaces' %}"><img src="{% static 'myworkspaces/images/logo.png' %}"
+                                      style="position: absolute; top: 0; left: 0; margin-left: 1em; padding: 0.5em; margin-top: 0.5em; width: 10%; height: auto; border: 1px solid; border-radius: 10px;"></a>
+<div id="main-wrapper" class="container">
+  <div id="content">
+    <div class="page-header">
+      <h1 id="title">#hackpoly2017</h1>
+    </div>
+    <div class="row">
+
+      <ul id="comments" class="col-xs-8 col-md-10">
+        {% for comment in comments %}
+        <li class="comment">
+          <span class="comment-image"><img src="{% gravatar_url comment.user.email%}" width="20" height="20"/></span>
+          <span class="comment-username">{{comment.user}}</span>:
+          <span class="comment-message">{{comment.text}}</span></li>
+        {% endfor %}
+      </ul>
+
+      <ul id="users-list" class="col-xs-4 col-md-2">
+        <h4 id="users-list-header">{{ users.count }} users online</h4>
+        {% if users %}
+        {% for user in users %}
+        <li class="list-user-item">
+          <img src="{% gravatar_url user.email%}" width="20" height="20"/>
+          {{ user }}
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+
+      <div class="ui-widget">
+        <input type="text" class="ui-autocomplete-input" id="comment-field" name="comment"/>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+</body>
+</html>
