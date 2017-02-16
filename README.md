@@ -21,25 +21,21 @@ You will need ```node v0.9.12, v7.4.0, and python 2.7```.
 To take care of the different node versions, use a node version manager such as [nvm](https://github.com/creationix/nvm). This is what I'll use in both sections.
 
 ### Mac
-If you have [brew](https://brew.sh/), you'll have a much better time.
+Install [Homebrew](https://brew.sh/) and [nvm](https://github.com/creationix/nvm#install-script) on your own if you don't already have it.
 
 ```
 ## Terminal
 
-### Sets up brew, nvm, and the project directory!
-~/anywhere $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-~/anywhere $ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-~/anywhere $ export NVM_DIR="$HOME/.nvm"
-~/anywhere $ [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+### Set up the project directory!
 ~/anywhere $ brew install redis
 ~/path/to-contain-project $ git clone <giturl>
 ~/path/to-contain-project $ cd <foldername>
 
-### Setup python stuffs!
+### Setup Python stuffs!
 ~/path/to/my-workspaces $ virtualenv env (anything works, of course)
 ~/path/to/my-workspaces $ env/bin/pip install -r requirements.txt
 
-### Setup node stuffs!
+### Setup Node stuffs!
 (nvm install node installs the latest version of node which
  we need to install dependencies)
 ~/path/to/my-workspaces $ cd chat
@@ -49,7 +45,7 @@ If you have [brew](https://brew.sh/), you'll have a much better time.
 
 
 ### Linux
-Same as above except you don't have pip installed with Python by default, you don't have brew, and the ```redis``` package we need is called ```redis-server``` in ```apt```. Just run the three following commands, and then start from the top of the [Mac](#mac).
+Same as above except you don't have pip installed with Python by default, you don't have (and don't use) Homebrew, and the ```redis``` package we need is called ```redis-server``` in ```apt```. Just run the three following commands, and then start from the top of [Mac](#mac).
 
 ```
 ## Terminal
